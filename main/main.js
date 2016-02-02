@@ -30,12 +30,39 @@ function handleData(string) {
 		}
 
 		if (index === array.length - 1) { 
-        	writeResult(filteredData); 
+        	filter(filteredData); 
         }
 	});
 }
 
-/* AND WHRITE RESULT */
+/* FILTER DATA */
+function filter(filteredData) {
+	var m = filteredData,
+		count = m.length-1;
+
+	for (var i = 0; i < count; i++) {
+		for (var j = 0; j < count-i; j++) {
+			var a = m[j],
+				newA = a.replace(/#[0-9a-f]{6}|#[0-9a-f]{3}/gi,''),
+				numA = parseInt(newA.replace(/[^\d.]/g,'')),
+				b = m[j+1],
+				newB = b.replace(/#[0-9a-f]{6}|#[0-9a-f]{3}/gi,''),
+				numB = parseInt(newB.replace(/[^\d.]/g,''));
+
+			if (numA > numB) {
+	           var max = m[j];
+	           m[j] = m[j+1];
+	           m[j+1] = max;
+	        }
+		}
+	} 
+
+	m = m.reverse();  
+	
+	writeResult(m); 
+}
+
+/* WHRITE RESULT */
 function writeResult(filteredData) {
 	var string = '';
 
